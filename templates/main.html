@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <title>Hephaestus | Get link Zing MP3, Nhaccuatui, written in Python</title>
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+       <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+ 
+    </head>
+    <body>
+ 
+ 
+<div class="container">
+ 
+ 
+  <h2>Get link Zing MP3, Nhaccuatui</h2>
+  <form  action="" method="post" role="form">
+    {{ form.csrf }}
+    <div class="form-group">
+      <label for="link">Nhập link bài hát:</label>
+      <input type="text" class="form-control" id="link" name="link" placeholder="http://mp3.zing.vn/bai-hat/Masturbate-for-life-Dj-lubel/IW7BII96.html">
+    </div>
+    <button type="submit" class="btn btn-success">Get Link</button>
+  </form>
+ 
+  <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+ 
+        {% for message in messages %}
+            {% if "download" in message[1]: %}
+                <div class="alert alert-info">
+                <a href="{{ message[1] }}">128Kbps</a>
+                </div>
+            {% endif %}
+
+            {% if "nixcdn" in message[1]: %}
+                <div class="alert alert-info">
+                <a href="{{ message[1] }}">128Kbps</a>
+                </div>
+            {% endif %}
+ 
+            {% if "Lỗi" in message[1] or "không chính xác" in message[1]: %}
+                <div class="alert alert-warning">
+                {{ message[1] }}
+                </div>
+            {% endif %}
+        {% endfor %}
+            {% endif %}
+        {% endwith %}
+ 
+</div>
+<br>      
+</div>
+</div>
+</body>
+</html>
