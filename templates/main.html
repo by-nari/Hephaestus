@@ -28,15 +28,27 @@
             {% if messages %}
  
         {% for message in messages %}
-            {% if "download" in message[1]: %}
+            {% if "download" in message[1] and "nixcdn" not in message[1]: %}
                 <div class="alert alert-info">
                 <a href="{{ message[1] }}">128Kbps</a>
                 </div>
             {% endif %}
 
-            {% if "nixcdn" in message[1]: %}
+            {% if "nixcdn" in message[1] and "hq.mp3" not in message[1] and ".flac" not in message[1]: %}
                 <div class="alert alert-info">
                 <a href="{{ message[1] }}">128Kbps</a>
+                </div>
+            {% endif %}
+
+            {% if "nixcdn" in message[1] and "hq.mp3" in message[1] and ".flac" not in message[1]: %}
+                <div class="alert alert-info">
+                <a href="{{ message[1] }}">320Kbps</a>
+                </div>
+            {% endif %}
+
+            {% if "nixcdn" in message[1] and "hq.mp3" not in message[1] and ".flac" in message[1]: %}
+                <div class="alert alert-info">
+                <a href="{{ message[1] }}">Lossless</a>
                 </div>
             {% endif %}
  
