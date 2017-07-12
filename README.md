@@ -1,14 +1,14 @@
 # Hephaestus
-Get link Zing MP3, Nhaccuatui
+Get link lossless Zing MP3, Nhaccuatui
 
-![Hephaestus](https://i.imgur.com/0mpjEaG.png)
+![Hephaestus](https://i.imgur.com/IrIAEBT.png)
 
 The code that powers [mp3zing.download](http://mp3zing.download/)
 
 ## Requirements
- Hephaestus was built with Python 3 and Flask web framework.
+Hephaestus was built with Python 3 and Flask web framework.
 ## Features
-* Get link Zing MP3 (128Kbps)
+* Get link Zing MP3 (128Kbps, 320Kbps, Lossless)
 * Get link Nhaccuatui (128Kbps, 320Kbps, Lossless)
 * Get link Soundcloud (coming soon)
 
