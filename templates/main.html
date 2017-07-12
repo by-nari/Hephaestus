@@ -11,6 +11,23 @@
         <meta property="og:url" content="http://mp3zing.download"/>
         <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui" />
         <meta property="og:image" content="https://i.imgur.com/IrIAEBT.png" />
+        <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
+        <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png')}}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='apple-icon-72x72.png')}}">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='apple-icon-76x76.png')}}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='apple-icon-114x114.png')}}">
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-icon-120x120.png')}}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='apple-icon-144x144.png')}}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-icon-152x152.png')}}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-icon-180x180.png')}}">
+        <link rel="icon" type="image/png" sizes="192x192"  href="{{ url_for('static', filename='android-icon-192x192.png')}}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png')}}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96x96.png')}}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png')}}">
+        <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="{{ url_for('static', filename='ms-icon-144x144.png')}}">
+        <meta name="theme-color" content="#ffffff">
     </head>
     <body>
     <a href="https://github.com/mrvir/Hephaestus"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
@@ -150,10 +167,10 @@ music: {
     {% with urls = get_flashed_messages(category_filter=["player"]) %}
     {% if urls %}
     {%- for msg in urls %}
-    url: '{{ msg }}',
+    url: '{{ msg }}'.replace("&amp;", "&"),
     {% endfor -%}
     {% endif %}
-    {% endwith %}
+    {% endwith %}   
     {% with urls = get_flashed_messages(category_filter=["thumbnail"]) %}
     {% if urls %}
     {%- for msg in urls %}
@@ -163,6 +180,7 @@ music: {
     {% endwith %}
     }
 });
+
 ap1.on('play', function () {
     console.log('play');
 });

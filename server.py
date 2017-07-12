@@ -36,7 +36,6 @@ def hello():
                     flash(link320, '320Kbps')
                 if lossless:
                     flash(lossless, 'Lossless')
-                    
                 flash(player, 'player')
                 flash(title, 'title')
                 flash(artist, 'artist')
@@ -70,24 +69,25 @@ def hello():
 
 def MP3(link):
 
-    string_valid = re.search("([A-Z0-9]{8})", link).group(1)
-    apiurl = 'http://api.mp3.zing.vn/api/mobile/song/getsonginfo?requestdata={"id":"%s"}' % (string_valid)
-    data = requests.get(apiurl)
-    dedata = json.loads(data.text)
-    player = dedata['link_download']['128']
-    title = dedata['title']
-    artist = dedata['artist']
-    thumbnail = 'http://zmp3-photo-td.zadn.vn/' + dedata['thumbnail']
-
     global cookies
     s = requests.Session()
     r = s.get(link, cookies=config.cookies)
 
     code = re.search('data-code=\"([a-zA-Z0-9]{20,30})\"', r.text).group(1)
+    xml = re.search('data-xml=\"(.+)\"', r.text).group(1)
+    
+    data = s.get("http://mp3.zing.vn"+xml, cookies=cookies).text
+    dedata = json.loads(data)
+
+    title = dedata['data'][0]['name']
+    artist = dedata['data'][0]['artist']
+    thumbnail = dedata['data'][0]['cover']
+
     content = s.get("http://mp3.zing.vn/json/song/get-download?code="+code, cookies=cookies).text
     decoded = json.loads(content)
 
     link128 = s.get('http://mp3.zing.vn' + decoded['data']['128']['link'], cookies=cookies, allow_redirects=False).headers['Location']
+    player = link128
     try:
         link320 = s.get('http://mp3.zing.vn' + decoded['data']['320']['link'], cookies=cookies, allow_redirects=False).headers['Location']
     except:
