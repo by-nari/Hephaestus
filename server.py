@@ -12,6 +12,7 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = os.urandom(30)
 cookies = config.cookies
+apikey = config.apikey
 
 class WebForm(Form):
     link = TextField('Nhập link bài hát:', validators=[validators.required()])
@@ -66,6 +67,27 @@ def hello():
             flash('Lỗi: Bạn cần nhập link bài hát vào.', 'error')
  
     return render_template('main.html', form=form)
+
+@app.route("/api", methods=['GET'])
+def api():
+    global apikey
+    key = request.args.get('key')
+    url = request.args.get('url')
+    mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", url)
+    nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", url)
+    if key not in apikey:
+        return "Incorrect API Key!"
+    else:
+        if mp3_valid:
+            player, title, artist, thumbnail, link128, link320, lossless = MP3(url)
+            data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
+            return json.dumps(data)
+        elif nct_valid:
+            title, artist, thumbnail, link128, link320, lossless = NCT(url)
+            data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
+            return json.dumps(data)
+        else:
+            return "Incorrect URL!"
 
 def MP3(link):
 
