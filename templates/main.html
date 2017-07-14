@@ -1,216 +1,180 @@
 <!DOCTYPE html>
 <html lang="vi">
-    <head>
-        <title>Hephaestus | Get link lossless Zing MP3, Nhaccuatui, written in Python</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui"/>
-        <meta property="og:url" content="http://mp3zing.download"/>
-        <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui" />
-        <meta property="og:image" content="https://i.imgur.com/IrIAEBT.png" />
-        <meta property="fb:app_id" content="1591404170883193"/>
-        <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
-        <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png')}}">
-        <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='apple-icon-72x72.png')}}">
-        <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='apple-icon-76x76.png')}}">
-        <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='apple-icon-114x114.png')}}">
-        <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-icon-120x120.png')}}">
-        <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='apple-icon-144x144.png')}}">
-        <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-icon-152x152.png')}}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-icon-180x180.png')}}">
-        <link rel="icon" type="image/png" sizes="192x192"  href="{{ url_for('static', filename='android-icon-192x192.png')}}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png')}}">
-        <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96x96.png')}}">
-        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png')}}">
-        <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}">
-        <meta name="msapplication-TileColor" content="#ffffff">
-        <meta name="msapplication-TileImage" content="{{ url_for('static', filename='ms-icon-144x144.png')}}">
-        <meta name="theme-color" content="#ffffff">
-    </head>
-    <body>
-    <a href="https://github.com/mrvir/Hephaestus"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>
-    <div id="fb-root"></div>
-	<script>(function(d, s, id) {
-  	var js, fjs = d.getElementsByTagName(s)[0];
-  	if (d.getElementById(id)) return;
-  	js = d.createElement(s); js.id = id;
-  	js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.9&appId=1591404170883193";
-  	fjs.parentNode.insertBefore(js, fjs);
-	}(document, 'script', 'facebook-jssdk'));</script>
-
-<style>
-        body {
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-        .container {
-            
-            height: 100%;
-            display: table;
-            justify-content: center;
-            align-items: center;
-        }
-        h1 {
-            font-size: 54px;
-            color: #333;
-            margin: 30px 0 10px;
-        }
-        h2 {
-            font-size: 25px;
-            color: #555;
-        }
-        h3 {
-            font-size: 24px;
-            color: #555;
-        }
-        hr {
-            display: block;
-            width: 7rem;
-            height: 1px;
-            margin: 2.5rem 0;
-            background-color: #eee;
-            border: 0;
-        }
-        a {
-            color: #08c;
-            text-decoration: none;
-        }
-        p {
-            font-size: 18px;
-        }
-        footer{
-            background-color: #424558;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 35px;
-            text-align: center;
-            color: #CCC;
-        }
-        footer p {
-            padding: 10.5px;
-            margin: 0px;
-            line-height: 100%;
-            font-size: 15px;
-        }
-    </style>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.6.0/APlayer.min.js"></script>
-
-<div class="container">
- 
- 
-  <h2>Get link lossless Zing MP3, Nhaccuatui</h2>
-  </br>
-  <form  action="" method="post" role="form">
-    {{ form.csrf }}
-    <div class="form-group">
-      <label for="link">Nhập link bài hát:</label>
-      <input type="text" class="form-control" id="link" name="link" placeholder="http://mp3.zing.vn/bai-hat/Young-The-Chainsmokers/ZW7CDEDD.html">
-    </div>
-    <button type="submit" class="btn btn-success">Get Link</button>
-  </form>
- 
-  <br>
+<head>
+    <title>Hephaestus | Get link lossless Zing MP3, Nhaccuatui, written in Python</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui"/>
+    <meta property="og:url" content="http://mp3zing.download"/>
+    <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui" />
+    <meta property="og:image" content="https://i.imgur.com/IrIAEBT.png" />
+    <meta property="fb:app_id" content="1591404170883193"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png')}}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='apple-icon-72x72.png')}}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='apple-icon-76x76.png')}}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='apple-icon-114x114.png')}}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-icon-120x120.png')}}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='apple-icon-144x144.png')}}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-icon-152x152.png')}}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-icon-180x180.png')}}">
+    <link rel="icon" type="image/png" sizes="192x192"  href="{{ url_for('static', filename='android-icon-192x192.png')}}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png')}}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96x96.png')}}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png')}}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='ms-icon-144x144.png')}}">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1>Hephaestus</h1>
+                    <p class="lead">Get link lossless Zing MP3, Nhaccuatui</p>
+                </div>
+            </div>
+        </div>     
+        <form action="" method="post" role="form">
+                {{ form.csrf }}
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon">Nhập link bài hát:</span>
+                        <input class="form-control" id="link" type="text" name="link" placeholder="http://mp3.zing.vn/bai-hat/Young-The-Chainsmokers/ZW7CDEDD.html">
+                        <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit">Get Link</button>
+                        </span>
+                    </div>
+                </div>
+        </form>
+        <br>
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-            {% for category, message in messages %}
-            {% if 'error' not in category and 'player' not in category and 'title' not in category and 'artist' not in category and 'thumbnail' not in category: %}
-                <div class="alert alert-info">
-                <a href="{{ message }}">{{ category }}</a>
-                </div>
-            {% endif %}
-            {% if 'error' in category: %}
-                <div class="alert alert-warning">
-                {{ message }}
-                </div>
-            {% endif %}
-            {% endfor %}
+                {% for category, message in messages %}
+                    {% if 'success' in category: %}
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endif %}
+                    {% if 'error' in category: %}
+                        <div class="alert alert-dismissible alert-warning">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <h4>Cảnh báo!</h4>
+                            <p>{{ message }}</p>
+                        </div>
+                    {% endif %}
+                    {% if 'fail' in category: %}
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>Shit happens!</strong> Lỗi nghiêm trọng đã xảy ra, get link thất bại, hãy báo ngay với admin để fix lỗi.
+                    </div>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endwith %}
-</div>
-<br>   
-</div>
-</div>
-<div class="container">
-<div id="player1" class="aplayer"></div>
-</div>
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-<script>
-var ap1 = new APlayer({
-element: document.getElementById('player1'),
-narrow: false,
-autoplay: true,
-showlrc: false,
-mutex: true,
-theme: '#e6d0b2',
-preload: 'metadata',
-mode: 'circulation',
-music: {
-    {% with urls = get_flashed_messages(category_filter=["title"]) %}
-    {% if urls %}
-    {%- for msg in urls %}
-    title: '{{ msg }}',
-    {% endfor -%}
-    {% endif %}
-    {% endwith %}
-    {% with urls = get_flashed_messages(category_filter=["artist"]) %}
-    {% if urls %}
-    {%- for msg in urls %}
-    author: '{{ msg }}',
-    {% endfor -%}
-    {% endif %}
-    {% endwith %}
-    {% with urls = get_flashed_messages(category_filter=["player"]) %}
-    {% if urls %}
-    {%- for msg in urls %}
-    url: '{{ msg }}'.replace("&amp;", "&"),
-    {% endfor -%}
-    {% endif %}
-    {% endwith %}   
-    {% with urls = get_flashed_messages(category_filter=["thumbnail"]) %}
-    {% if urls %}
-    {%- for msg in urls %}
-    pic: '{{ msg }}'
-    {% endfor -%}
-    {% endif %}
-    {% endwith %}
-    }
-});
+        <div class="list-group">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if '128Kbps' in category or '320Kbps' in category or 'Lossless' in category : %}
+                            <a href="{{ message }}" class="list-group-item">Tải về bài hát ở chất lượng {{ category }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
 
-ap1.on('play', function () {
-    console.log('play');
-});
-ap1.on('play', function () {
-    console.log('play play');
-});
-ap1.on('pause', function () {
-    console.log('pause');
-});
-ap1.on('canplay', function () {
-    console.log('canplay');
-});
-ap1.on('playing', function () {
-    console.log('playing');
-});
-ap1.on('ended', function () {
-    console.log('ended');
-});
-ap1.on('error', function () {
-    console.log('error');
-});
-</script>
-{% endif %}
-{% endwith %}
-</br>
-</br>
-<div class="fb-like container" data-href="http://mp3zing.download/" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
-<div class="fb-comments container" data-href="http://mp3zing.download" data-numposts="5"></div>
-<footer>
-        <p>© 2017 <a style="color:#0a93a6; text-decoration:none;" href="https://www.facebook.com/Virrie">Công cụ mã nguồn mở phát triển bởi Quỳnh Vir</a>, phát hành với MIT License.</p>
-</footer>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.6.0/APlayer.min.js"></script>
+
+        <div id="player1" class="aplayer"></div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <script>
+                    var ap1 = new APlayer({
+                    element: document.getElementById('player1'),
+                    narrow: false,
+                    autoplay: true,
+                    showlrc: false,
+                    mutex: true,
+                    theme: '#e6d0b2',
+                    preload: 'metadata',
+                    mode: 'circulation',
+                    music: {
+                    {% with urls = get_flashed_messages(category_filter=["title"]) %}
+                        {% if urls %}
+                            {%- for msg in urls %}
+                                title: '{{ msg }}',
+                            {% endfor -%}
+                        {% endif %}
+                    {% endwith %}
+                    {% with urls = get_flashed_messages(category_filter=["artist"]) %}
+                        {% if urls %}
+                            {%- for msg in urls %}
+                                author: '{{ msg }}',
+                            {% endfor -%}
+                        {% endif %}
+                    {% endwith %}
+                    {% with urls = get_flashed_messages(category_filter=["player"]) %}
+                        {% if urls %}
+                            {%- for msg in urls %}
+                                url: '{{ msg | safe }}',
+                            {% endfor -%}
+                        {% endif %}
+                    {% endwith %}   
+                    {% with urls = get_flashed_messages(category_filter=["thumbnail"]) %}
+                        {% if urls %}
+                            {%- for msg in urls %}
+                                pic: '{{ msg }}'
+                            {% endfor -%}
+                        {% endif %}
+                    {% endwith %}
+                    }
+                    });
+
+                    ap1.on('play', function () {
+                        console.log('play');
+                    });
+                    ap1.on('play', function () {
+                        console.log('play play');
+                    });
+                    ap1.on('pause', function () {
+                        console.log('pause');
+                    });
+                    ap1.on('canplay', function () {
+                        console.log('canplay');
+                    });
+                    ap1.on('playing', function () {
+                        console.log('playing');
+                    });
+                    ap1.on('ended', function () {
+                        console.log('ended');
+                    });
+                    ap1.on('error', function () {
+                        console.log('error');
+                    });
+                </script>
+            {% endif %}
+        {% endwith %}
+        </br>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Thông tin</h3>
+            </div>
+            <div class="panel-body">Nếu bạn thích Hephaestus, hãy star project trên GitHub, đóng góp tài khoản VIP Zing hoặc donate PayPal commine7@gmail.com để admin có thể duy trì site.<br>Muốn sử dụng API ? Liên hệ ngay với admin để đăng ký API key. Miễn phí và sẽ luôn như vậy.</div>
+        </div>
+        </br>
+        <footer>
+            <div class="row">
+              <div class="col-lg-12">
+                <p>Made by <a href="https://www.facebook.com/Virrie" rel="nofollow">Quỳnh Vir</a>. Contact him at <a href="mailto:mrvir@tuta.io">mrvir@tuta.io</a>.</p>
+                <p>Code released under the <a href="https://github.com/mrvir/Hephaestus/blob/master/LICENSE">MIT License</a>.</p>
+              </div>
+            </div>
+        </footer>
+    </div>
 </body>
-</html>

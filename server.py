@@ -1,4 +1,4 @@
-from flask import Flask, render_template, flash, request
+from flask import Flask, render_template, flash, request, Response
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import os
 import requests
@@ -31,40 +31,48 @@ def hello():
 
             if mp3_valid:
 
-                player, title, artist, thumbnail, link128, link320, lossless = MP3(link)
-                flash(link128, '128Kbps')
-                if link320:
-                    flash(link320, '320Kbps')
-                if lossless:
-                    flash(lossless, 'Lossless')
-                flash(player, 'player')
-                flash(title, 'title')
-                flash(artist, 'artist')
-                flash(thumbnail, 'thumbnail')
+                try:
+                    player, title, artist, thumbnail, link128, link320, lossless = MP3(link)
+                    flash("Get link thành công!", 'success')
+                    flash(link128, '128Kbps')
+                    if link320:
+                        flash(link320, '320Kbps')
+                    if lossless:
+                        flash(lossless, 'Lossless')
+                    flash(player, 'player')
+                    flash(title, 'title')
+                    flash(artist, 'artist')
+                    flash(thumbnail, 'thumbnail')
+                except:
+                    flash("Mission Failed!", 'fail')
 
 
             elif nct_valid:
-                
-                title, artist, thumbnail, link128, link320, lossless = NCT(link)
-                player = link128
-                flash(link128, '128Kbps')
 
-                if "hq.mp3" in link320:
-                    flash(link320, '320Kbps')
+                try:
+                    title, artist, thumbnail, link128, link320, lossless = NCT(link)
+                    flash("Get link thành công!", 'success')
+                    player = link128
+                    flash(link128, '128Kbps')
 
-                if ".flac" in lossless:
-                    flash(lossless, 'Lossless')
-                    
-                flash(player, 'player')
-                flash(title, 'title')
-                flash(artist, 'artist')
-                flash(thumbnail, 'thumbnail')
+                    if "hq.mp3" in link320:
+                        flash(link320, '320Kbps')
+
+                    if ".flac" in lossless:
+                        flash(lossless, 'Lossless')
+                        
+                    flash(player, 'player')
+                    flash(title, 'title')
+                    flash(artist, 'artist')
+                    flash(thumbnail, 'thumbnail')
+                except:
+                    flash("Mission Failed!", 'fail')
 
             else:
                 flash("Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
 
         else:
-            flash('Lỗi: Bạn cần nhập link bài hát vào.', 'error')
+            flash('Bạn cần nhập link bài hát vào.', 'error')
  
     return render_template('main.html', form=form)
 
@@ -81,11 +89,13 @@ def api():
         if mp3_valid:
             player, title, artist, thumbnail, link128, link320, lossless = MP3(url)
             data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
-            return json.dumps(data)
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
         elif nct_valid:
             title, artist, thumbnail, link128, link320, lossless = NCT(url)
             data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
-            return json.dumps(data)
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
         else:
             return "Incorrect URL!"
 
