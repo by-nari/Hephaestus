@@ -19,4 +19,4 @@ Hephaestus was built with Python 3 and Flask web framework.
 > git clone https://github.com/mrvir/Hephaestus.git  
 cd Hephaestus  
 python3 -m pip install -r requirements.txt  
-python3 server.py 
+python3 main.py 
