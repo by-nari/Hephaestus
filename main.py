@@ -44,7 +44,11 @@ def hello():
                     flash(artist, 'artist')
                     flash(thumbnail, 'thumbnail')
                 except:
-                    flash("Mission Failed!", 'fail')
+                    msg = MP3(link)
+                    if msg:
+                        flash("Không thể download bài hát này vì yêu cầu từ nhà sở hữu bản quyền.", 'copyright')
+                    else:
+                        flash("Mission Failed!", 'fail')
 
 
             elif nct_valid:
@@ -118,8 +122,14 @@ def MP3(link):
     content = s.get("http://mp3.zing.vn/json/song/get-download?code="+code, cookies=cookies).text
     decoded = json.loads(content)
 
+    msg = decoded['msg']
+
+    if msg:
+        return msg
+
     link128 = s.get('http://mp3.zing.vn' + decoded['data']['128']['link'], cookies=cookies, allow_redirects=False).headers['Location']
     player = link128
+
     try:
         link320 = s.get('http://mp3.zing.vn' + decoded['data']['320']['link'], cookies=cookies, allow_redirects=False).headers['Location']
     except:
