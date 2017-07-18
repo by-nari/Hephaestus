@@ -13,6 +13,7 @@ Hephaestus was built with Python 3 and Flask web framework.
 ## Features
 * Get link Zing MP3 (128Kbps, 320Kbps, Lossless)
 * Get link Nhaccuatui (128Kbps, 320Kbps, Lossless)
+* Get link SoundCloud (128Kbps)
 * Get link via API *mp3zing.download/api?key=API-KEY&url=SONG-URL*
 
 ## Installation

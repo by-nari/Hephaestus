@@ -4,6 +4,7 @@ import os
 import requests
 import re
 import json
+import youtube_dl
 import config
  
 # App config.
@@ -26,6 +27,7 @@ def hello():
         link=request.form['link']
         mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", link)
         nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", link)
+        sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", link)
  
         if form.validate():
 
@@ -72,6 +74,21 @@ def hello():
                 except:
                     flash("Mission Failed!", 'fail')
 
+            elif sc_valid:
+
+                try:
+                    title, thumbnail, link128 = SC(link)
+                    flash("Get link thành công!", 'success')
+                    player = link128
+                    flash(link128, 'linksc')
+                    flash(player, 'player')
+                    flash(title, 'title')
+                    flash('mrvir', 'artist')
+                    flash(thumbnail, 'thumbnail')
+
+                except:
+                    flash("Mission Failed!", 'fail')
+
             else:
                 flash("Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
 
@@ -87,6 +104,8 @@ def api():
     url = request.args.get('url')
     mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", url)
     nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", url)
+    sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", url)
+
     if key not in apikey:
         return "Incorrect API Key!"
     else:
@@ -98,6 +117,11 @@ def api():
         elif nct_valid:
             title, artist, thumbnail, link128, link320, lossless = NCT(url)
             data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
+        elif sc_valid:
+            title, thumbnail, link128 = SC(link)
+            data = {'title':title, 'thumbnail':thumbnail, 'link128':link128 }
             resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
             return resp
         else:
@@ -174,6 +198,15 @@ def NCT(link):
 
     return title, artist, thumbnail, link128, link320, lossless
 
+def SC(link):
+
+    ydl = youtube_dl.YoutubeDL()
+    result = ydl.extract_info(link, download=False)
+    link128 = result['url']
+    title = result['title']
+    thumbnail = result['thumbnail']
+
+    return title, thumbnail, link128
 
 if __name__ == "__main__":
     app.run()

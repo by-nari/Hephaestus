@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Hephaestus | Get link lossless Zing MP3, Nhaccuatui, written in Python</title>
+    <title>Hephaestus | Get link lossless Zing MP3, Nhaccuatui, SoundCloud written in Python</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
-    <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui"/>
+    <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui, SoundCloud"/>
     <meta property="og:url" content="http://mp3zing.download"/>
-    <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui" />
+    <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui, SoundCloud" />
     <meta property="og:image" content="https://i.imgur.com/IrIAEBT.png" />
     <meta property="fb:app_id" content="1591404170883193"/>
     <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-sm-6">
                     <h1>Hephaestus</h1>
-                    <p class="lead">Get link lossless Zing MP3, Nhaccuatui</p>
+                    <p class="lead">Get link lossless Zing MP3, Nhaccuatui, SoundCloud</p>
                 </div>
             </div>
         </div>     
@@ -88,6 +88,9 @@
                     {% for category, message in messages %}
                         {% if '128Kbps' in category or '320Kbps' in category or 'Lossless' in category : %}
                             <a href="{{ message }}" class="list-group-item">Tải về bài hát ở chất lượng {{ category }}</a>
+                        {% endif %}
+                        {% if 'linksc' in category : %}
+                            <a href="{{ message }}" download class="list-group-item">Tải về bài hát</a>
                         {% endif %}
                     {% endfor %}
                 {% endif %}

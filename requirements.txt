@@ -2,4 +2,5 @@ requests
 flask
 wtforms
 gunicorn
+youtube-dl
 
