@@ -4,7 +4,7 @@
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 ![Hephaestus](https://i.imgur.com/IrIAEBT.png)
 
-Get link lossless Zing MP3, Nhaccuatui.
+Get link lossless Zing MP3, Nhaccuatui, SoundCloud.
 
 The code that powers [mp3zing.download](http://mp3zing.download/)
 
