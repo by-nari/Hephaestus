@@ -8,7 +8,7 @@
     <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui, SoundCloud"/>
     <meta property="og:url" content="http://mp3zing.download"/>
     <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui, SoundCloud" />
-    <meta property="og:image" content="https://i.imgur.com/IrIAEBT.png" />
+    <meta property="og:image" content="https://i.imgur.com/aXNCSZ8.png" />
     <meta property="fb:app_id" content="1591404170883193"/>
     <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
     <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png')}}">
@@ -56,26 +56,26 @@
                 {% for category, message in messages %}
                     {% if 'success' in category: %}
                         <div class="alert alert-dismissible alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
                             <strong>{{ message }}</strong>
                         </div>
                     {% endif %}
                     {% if 'error' in category: %}
                         <div class="alert alert-dismissible alert-warning">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
                             <h4>Cảnh báo!</h4>
                             <p>{{ message }}</p>
                         </div>
                     {% endif %}
                     {% if 'fail' in category: %}
                     <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
                         <strong>Shit happens!</strong> Lỗi nghiêm trọng đã xảy ra, get link thất bại, hãy báo ngay với admin để fix lỗi.
                     </div>
                     {% endif %}
                     {% if 'copyright' in category: %}
                     <div class="alert alert-dismissible alert-danger">
-                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
                         <strong>Không thể download bài hát này vì yêu cầu từ nhà sở hữu bản quyền.</strong>
                     </div>
                     {% endif %}
@@ -97,76 +97,82 @@
             {% endwith %}
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.6.0/APlayer.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.6.0/APlayer.min.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
         <div id="player1" class="aplayer"></div>
 
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
-                <script>
-                    var ap1 = new APlayer({
-                    element: document.getElementById('player1'),
-                    narrow: false,
-                    autoplay: true,
-                    showlrc: false,
-                    mutex: true,
-                    theme: '#e6d0b2',
-                    preload: 'metadata',
-                    mode: 'circulation',
-                    music: {
-                    {% with urls = get_flashed_messages(category_filter=["title"]) %}
-                        {% if urls %}
-                            {%- for msg in urls %}
-                                title: '{{ msg }}',
-                            {% endfor -%}
-                        {% endif %}
-                    {% endwith %}
-                    {% with urls = get_flashed_messages(category_filter=["artist"]) %}
-                        {% if urls %}
-                            {%- for msg in urls %}
-                                author: '{{ msg }}',
-                            {% endfor -%}
-                        {% endif %}
-                    {% endwith %}
-                    {% with urls = get_flashed_messages(category_filter=["player"]) %}
-                        {% if urls %}
-                            {%- for msg in urls %}
-                                url: '{{ msg | safe }}',
-                            {% endfor -%}
-                        {% endif %}
-                    {% endwith %}   
-                    {% with urls = get_flashed_messages(category_filter=["thumbnail"]) %}
-                        {% if urls %}
-                            {%- for msg in urls %}
-                                pic: '{{ msg }}'
-                            {% endfor -%}
-                        {% endif %}
-                    {% endwith %}
-                    }
-                    });
+                {% for category, message in messages %}
+                    {% if 'player' in category: %}
+                        <script>
+                            var ap1 = new APlayer({
+                            element: document.getElementById('player1'),
+                            narrow: false,
+                            autoplay: true,
+                            showlrc: false,
+                            mutex: true,
+                            theme: '#e6d0b2',
+                            preload: 'metadata',
+                            mode: 'circulation',
+                            music: {
+                            {% with urls = get_flashed_messages(category_filter=["title"]) %}
+                                {% if urls %}
+                                    {%- for msg in urls %}
+                                        title: '{{ msg }}',
+                                    {% endfor -%}
+                                {% endif %}
+                            {% endwith %}
+                            {% with urls = get_flashed_messages(category_filter=["artist"]) %}
+                                {% if urls %}
+                                    {%- for msg in urls %}
+                                        author: '{{ msg }}',
+                                    {% endfor -%}
+                                {% endif %}
+                            {% endwith %}
+                            {% with urls = get_flashed_messages(category_filter=["player"]) %}
+                                {% if urls %}
+                                    {%- for msg in urls %}
+                                        url: '{{ msg | safe }}',
+                                    {% endfor -%}
+                                {% endif %}
+                            {% endwith %}   
+                            {% with urls = get_flashed_messages(category_filter=["thumbnail"]) %}
+                                {% if urls %}
+                                    {%- for msg in urls %}
+                                        pic: '{{ msg }}'
+                                    {% endfor -%}
+                                {% endif %}
+                            {% endwith %}
+                            }
+                            });
 
-                    ap1.on('play', function () {
-                        console.log('play');
-                    });
-                    ap1.on('play', function () {
-                        console.log('play play');
-                    });
-                    ap1.on('pause', function () {
-                        console.log('pause');
-                    });
-                    ap1.on('canplay', function () {
-                        console.log('canplay');
-                    });
-                    ap1.on('playing', function () {
-                        console.log('playing');
-                    });
-                    ap1.on('ended', function () {
-                        console.log('ended');
-                    });
-                    ap1.on('error', function () {
-                        console.log('error');
-                    });
-                </script>
+                            ap1.on('play', function () {
+                                console.log('play');
+                            });
+                            ap1.on('play', function () {
+                                console.log('play play');
+                            });
+                            ap1.on('pause', function () {
+                                console.log('pause');
+                            });
+                            ap1.on('canplay', function () {
+                                console.log('canplay');
+                            });
+                            ap1.on('playing', function () {
+                                console.log('playing');
+                            });
+                            ap1.on('ended', function () {
+                                console.log('ended');
+                            });
+                            ap1.on('error', function () {
+                                console.log('error');
+                            });
+                        </script>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         {% endwith %}
         </br>

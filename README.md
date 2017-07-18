@@ -2,7 +2,7 @@
 
 [![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
-![Hephaestus](https://i.imgur.com/IrIAEBT.png)
+![Hephaestus](https://i.imgur.com/aXNCSZ8.png)
 
 Get link lossless Zing MP3, Nhaccuatui, SoundCloud.
 
