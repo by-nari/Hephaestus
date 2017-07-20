@@ -1,3 +1,6 @@
+#!/usr/local/bin/python
+# -*- coding: utf-8 -*-
+
 from flask import Flask, render_template, flash, request, Response
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
 import os
@@ -16,7 +19,7 @@ cookies = config.cookies
 apikey = config.apikey
 
 class WebForm(Form):
-    link = TextField('Nhập link bài hát:', validators=[validators.required()])
+    link = TextField(u'Nhập link bài hát:', validators=[validators.required()])
  
 @app.route("/", methods=['GET', 'POST'])
 def hello():
@@ -35,7 +38,7 @@ def hello():
 
                 try:
                     player, title, artist, thumbnail, link128, link320, lossless = MP3(link)
-                    flash("Get link thành công!", 'success')
+                    flash(u"Get link thành công!", 'success')
                     flash(link128, '128Kbps')
                     if link320:
                         flash(link320, '320Kbps')
@@ -48,7 +51,7 @@ def hello():
                 except:
                     msg = MP3(link)
                     if msg:
-                        flash("Không thể download bài hát này vì yêu cầu từ nhà sở hữu bản quyền.", 'copyright')
+                        flash(u"Không thể download bài hát này vì yêu cầu từ nhà sở hữu bản quyền.", 'copyright')
                     else:
                         flash("Mission Failed!", 'fail')
 
@@ -57,7 +60,7 @@ def hello():
 
                 try:
                     title, artist, thumbnail, link128, link320, lossless = NCT(link)
-                    flash("Get link thành công!", 'success')
+                    flash(u"Get link thành công!", 'success')
                     player = link128
                     flash(link128, '128Kbps')
 
@@ -78,7 +81,7 @@ def hello():
 
                 try:
                     title, thumbnail, link128 = SC(link)
-                    flash("Get link thành công!", 'success')
+                    flash(u"Get link thành công!", 'success')
                     player = link128
                     flash(link128, 'linksc')
                     flash(player, 'player')
@@ -90,10 +93,10 @@ def hello():
                     flash("Mission Failed!", 'fail')
 
             else:
-                flash("Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
+                flash(u"Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
 
         else:
-            flash('Bạn cần nhập link bài hát vào.', 'error')
+            flash(u'Bạn cần nhập link bài hát vào.', 'error')
  
     return render_template('main.html', form=form)
 
