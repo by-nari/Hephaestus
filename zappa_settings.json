@@ -1,0 +1,6 @@
+{
+    "production": {
+        "app_function": "main.app",
+        "s3_bucket": "zappa-6sp7f2ler"
+    }
+}

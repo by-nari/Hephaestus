@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Hephaestus | Get link lossless Zing MP3, Nhaccuatui, SoundCloud written in Python</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css')}}">
+    <title>Hephaestus | Get link Zing MP3, Nhaccuatui, SoundCloud written in Python</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
     <meta property="og:title" content="Get link lossless Zing MP3, Nhaccuatui, SoundCloud"/>
@@ -10,22 +10,22 @@
     <meta property="og:description" content="Get link 320Kbps, lossless Zing MP3, Nhaccuatui, SoundCloud" />
     <meta property="og:image" content="https://i.imgur.com/aXNCSZ8.png" />
     <meta property="fb:app_id" content="1591404170883193"/>
-    <link rel="apple-touch-icon" sizes="57x57" href="{{ url_for('static', filename='apple-icon-57x57.png')}}">
-    <link rel="apple-touch-icon" sizes="60x60" href="{{ url_for('static', filename='apple-icon-60x60.png')}}">
-    <link rel="apple-touch-icon" sizes="72x72" href="{{ url_for('static', filename='apple-icon-72x72.png')}}">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ url_for('static', filename='apple-icon-76x76.png')}}">
-    <link rel="apple-touch-icon" sizes="114x114" href="{{ url_for('static', filename='apple-icon-114x114.png')}}">
-    <link rel="apple-touch-icon" sizes="120x120" href="{{ url_for('static', filename='apple-icon-120x120.png')}}">
-    <link rel="apple-touch-icon" sizes="144x144" href="{{ url_for('static', filename='apple-icon-144x144.png')}}">
-    <link rel="apple-touch-icon" sizes="152x152" href="{{ url_for('static', filename='apple-icon-152x152.png')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-icon-180x180.png')}}">
-    <link rel="icon" type="image/png" sizes="192x192"  href="{{ url_for('static', filename='android-icon-192x192.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="96x96" href="{{ url_for('static', filename='favicon-96x96.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png')}}">
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json')}}">
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="{{ url_for('static', filename='ms-icon-144x144.png')}}">
+    <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 </head>
 <body>
@@ -34,7 +34,7 @@
             <div class="row">
                 <div class="col-lg-8 col-md-7 col-sm-6">
                     <h1>Hephaestus</h1>
-                    <p class="lead">Get link lossless Zing MP3, Nhaccuatui, SoundCloud</p>
+                    <p class="lead">Get link Zing MP3, Nhaccuatui, SoundCloud</p>
                 </div>
             </div>
         </div>     
@@ -42,7 +42,7 @@
                 {{ form.csrf }}
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon">Nhập link bài hát:</span>
+                        <span class="input-group-addon">Nhập link:</span>
                         <input class="form-control" id="link" type="text" name="link" placeholder="http://mp3.zing.vn/bai-hat/Young-The-Chainsmokers/ZW7CDEDD.html">
                         <span class="input-group-btn">
                         <button class="btn btn-primary" type="submit">Get Link</button>
@@ -91,6 +91,12 @@
                         {% endif %}
                         {% if 'linksc' in category : %}
                             <a href="{{ message }}" download class="list-group-item">Tải về bài hát</a>
+                        {% endif %}
+                        {% if 'fslink' in category : %}
+                            <a href="{{ message }}" download class="list-group-item">Bấm vào đây để tải xuống</a>
+                        {% endif %}
+                        {% if 'link4share' in category : %}
+                            <a target="_blank" href="{{ message }}" class="list-group-item">Bấm vào đây để sang trang chứa link tải</a>
                         {% endif %}
                     {% endfor %}
                 {% endif %}
@@ -180,14 +186,23 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Thông tin</h3>
             </div>
-            <div class="panel-body">Nếu bạn thích Hephaestus, hãy star project trên GitHub, đóng góp tài khoản VIP Zing hoặc donate PayPal commine7@gmail.com để admin có thể duy trì site.<br>Muốn sử dụng API ? Liên hệ ngay với admin để đăng ký API key. Miễn phí và sẽ luôn như vậy.</div>
+            <div class="panel-body">
+                <p>Nếu bạn thích Hephaestus, hãy star project trên GitHub, đóng góp tài khoản VIP Zing hoặc donate PayPal để admin có thể duy trì site.<br>Muốn sử dụng API ? Liên hệ ngay với admin để đăng ký API key. Miễn phí và sẽ luôn như vậy.</p>
+            </div>
         </div>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="YZDWBTELVX4V2">
+                <input type="image" src="https://i.imgur.com/qQs6C33.jpg" height="161" width="150" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" class="img-responsive center-block">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
         </br>
         <footer>
             <div class="row">
               <div class="col-lg-12">
                 <p>Made by <a href="https://www.facebook.com/Virrie" rel="nofollow">Quỳnh Vir</a>. Contact him at <a href="mailto:mrvir@tuta.io">mrvir@tuta.io</a>.</p>
                 <p>Code released under the <a href="https://github.com/mrvir/Hephaestus/blob/master/LICENSE">MIT License</a>.</p>
+                <p>Proudly powered by <a href="https://aws.amazon.com/lambda/">AWS Lambda</a>.</p>
               </div>
             </div>
         </footer>

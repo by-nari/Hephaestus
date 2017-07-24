@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <title>Prometheus | Hệ thống giải mã URL, written in Python</title>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Hệ thống giải mã URL"/>
+    <meta property="og:url" content="http://mp3zing.download/urlguardian"/>
+    <meta property="og:description" content="Hệ thống giải mã URL, written in Python" />
+    <meta property="og:image" content="https://i.imgur.com/aXNCSZ8.png" />
+    <meta property="fb:app_id" content="1591404170883193"/>
+    <link rel="apple-touch-icon" sizes="57x57" href="/static/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/static/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/static/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/static/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/static/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/static/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/static/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/static/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/static/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header" id="banner">
+            <div class="row">
+                <div class="col-lg-8 col-md-7 col-sm-6">
+                    <h1>Prometheus</h1>
+                    <p class="lead">Hệ thống giải mã URL</p>
+                </div>
+            </div>
+        </div>
+        <br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if 'success' in category: %}
+                        <div class="alert alert-dismissible alert-success">
+                            <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endif %}
+                    {% if 'fail' in category: %}
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" onclick='$(this).parent().remove();'>&times;</button>
+                        <strong>Shit happens!</strong> Lỗi nghiêm trọng đã xảy ra, giải mã thất bại, hãy báo ngay với admin để fix lỗi.
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="list-group">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if 'link' in category : %}
+                            <a target="_blank" href="{{ message }}" class="btn btn-primary btn-lg">Chuyển hướng đến trang yêu cầu</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+        </br>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Thông tin</h3>
+            </div>
+            <div class="panel-body">
+                <p>Nếu bạn thích Prometheus, hãy star project trên GitHub, đóng góp tài khoản VIP Zing hoặc donate PayPal để admin có thể duy trì site.<br>Muốn sử dụng API ? Liên hệ ngay với admin để đăng ký API key. Miễn phí và sẽ luôn như vậy.</p>
+            </div>
+        </div>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                <input type="hidden" name="cmd" value="_s-xclick">
+                <input type="hidden" name="hosted_button_id" value="YZDWBTELVX4V2">
+                <input type="image" src="https://i.imgur.com/qQs6C33.jpg" height="161" width="150" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!" class="img-responsive center-block">
+                <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+        </br>
+        <footer>
+            <div class="row">
+              <div class="col-lg-12">
+                <p>Made by <a href="https://www.facebook.com/Virrie" rel="nofollow">Quỳnh Vir</a>. Contact him at <a href="mailto:mrvir@tuta.io">mrvir@tuta.io</a>.</p>
+                <p>Code released under the <a href="https://github.com/mrvir/Hephaestus/blob/master/LICENSE">MIT License</a>.</p>
+                <p>Proudly powered by <a href="https://aws.amazon.com/lambda/">AWS Lambda</a>.</p>
+              </div>
+            </div>
+        </footer>
+    </div>
+</body>

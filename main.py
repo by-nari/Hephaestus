@@ -3,20 +3,24 @@
 
 from flask import Flask, render_template, flash, request, Response
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from caesarcipher import CaesarCipher
 import os
 import requests
 import re
 import json
 import youtube_dl
 import config
+import base64
  
 # App config.
 DEBUG = False
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = os.urandom(30)
 cookies = config.cookies
 apikey = config.apikey
+fshare = config.fshare
+acc4share = config.acc4share
 
 class WebForm(Form):
     link = TextField(u'Nhập link bài hát:', validators=[validators.required()])
@@ -27,10 +31,13 @@ def hello():
  
     if request.method == 'POST':
 
-        link=request.form['link']
-        mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", link)
+        raw = request.form['link']
+        link = raw.split(" | ")[0]
+        mp3_valid = re.match("(https?:\/\/)?(m.)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", link)
         nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", link)
         sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", link)
+        fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+", link)
+        fourshare = re.match("https?:\/\/4share.vn/f/([0-9a-z]+)/?(.+)?", link)
  
         if form.validate():
 
@@ -92,11 +99,34 @@ def hello():
                 except:
                     flash("Mission Failed!", 'fail')
 
+            elif fs_valid:
+
+                try:
+                    pw = raw.split(" | ")[1]
+                except:
+                    pw = ""
+
+                try:
+                    fslink = FS(link, pw)
+                    flash(u"Get link thành công!", 'success')
+                    flash(fslink, 'fslink')
+                except:
+                    flash("Mission Failed!", 'fail')
+
+            elif fourshare:
+
+                try:
+                    link4share = get4S(link)
+                    flash(u"Get link thành công!", 'success')
+                    flash(link4share, 'link4share')
+                except:
+                    flash("Mission Failed!", 'fail')
+
             else:
                 flash(u"Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
 
         else:
-            flash(u'Bạn cần nhập link bài hát vào.', 'error')
+            flash(u'Bạn cần nhập link vào.', 'error')
  
     return render_template('main.html', form=form)
 
@@ -105,9 +135,16 @@ def api():
     global apikey
     key = request.args.get('key')
     url = request.args.get('url')
+    try:
+        pw = request.args.get('pw')
+    except:
+        pw = ""
+
     mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", url)
     nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", url)
     sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", url)
+    fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+", url)
+    fourshare = re.match("https?:\/\/4share.vn/f/([0-9a-z]+)/?(.+)?", url)
 
     if key not in apikey:
         return "Incorrect API Key!"
@@ -123,16 +160,43 @@ def api():
             resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
             return resp
         elif sc_valid:
-            title, thumbnail, link128 = SC(link)
+            title, thumbnail, link128 = SC(url)
             data = {'title':title, 'thumbnail':thumbnail, 'link128':link128 }
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
+        elif fs_valid:
+            result = FS(url, pw)
+            link = encodeURL(result)
+            data = {'link':link}
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
+        elif fourshare:
+            link = get4S(url)
+            data = {'link':link}
             resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
             return resp
         else:
             return "Incorrect URL!"
 
+@app.route("/redirector", methods=['GET'])
+def decode():
+
+    code = request.args.get('code')
+    try:
+        cipher = CaesarCipher(code, offset=14).decoded
+        link = base64.b64decode(cipher.encode('ascii'))
+        flash(u"Giải mã URL thành công!", 'success')
+        flash(link.decode('ascii'), 'link')
+    except:
+        flash("Mission Failed!", 'fail')
+
+    return render_template('link.html')
+
 def MP3(link):
 
     global cookies
+    
+    link = link.replace("m.", "")
     s = requests.Session()
     r = s.get(link, cookies=config.cookies)
 
@@ -186,11 +250,11 @@ def NCT(link):
     r = requests.post(url, data=payload, headers=headers)
     decoded = json.loads(r.text)
     token = decoded['data']['accessToken']
-
+    
     gurl = 'https://graph.nhaccuatui.com/v1/songs/'+id+'?access_token='+token
     content = requests.get(gurl)
     result = json.loads(content.text)
-
+    
     link128 = result['data']['11']
     link320 = result['data']['12']
     lossless = result['data']['19']
@@ -210,6 +274,52 @@ def SC(link):
     thumbnail = result['thumbnail']
 
     return title, thumbnail, link128
+
+def FS(link, pw):
+
+    global fshare
+    r = requests.Session()
+    headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'}
+    loginpage = r.get("https://www.fshare.vn/login", headers=headers)
+    cookies = loginpage.cookies
+    csrftoken = re.search('<input type=\"hidden\" value=\"([0-9a-z]+)\" name=\"fs_csrf\" \/>', loginpage.text).group(1)
+    payload =  {'fs_csrf': csrftoken, 
+                'LoginForm[email]': fshare[0], 
+                'LoginForm[password]': fshare[1], 
+                'LoginForm[rememberMe]': 1, 
+                'LoginForm[checkloginpopup]': 0, 
+                'yt0': 'Đăng nhập'}
+    response = r.post("https://www.fshare.vn/login", data=payload, headers=headers, cookies=cookies)
+    id = link.split("/")[-1]
+    downloadpage = r.get(link, headers=headers)
+    csrftoken = re.search('<input type=\"hidden\" value=\"([0-9a-z]+)\" name=\"fs_csrf\" \/>', downloadpage.text).group(1)
+    dl_data =  {'fs_csrf': csrftoken,
+                "DownloadForm[pwd]": pw,
+                "DownloadForm[linkcode]": id,
+                "ajax": "download-form",
+                "undefined": "undefined"}
+    getlink = r.post("https://www.fshare.vn/download/get", headers=headers, data=dl_data).text
+    result = json.loads(getlink)
+
+    return result['url']
+
+def get4S(link):
+
+    global acc4share
+    id = re.search('https?:\/\/4share.vn/f/([0-9a-z]+)/?(.+)?', link).group(1)
+    payload = "/{0}/{1}/{2}/".format(acc4share[0], acc4share[1], id)
+    encoded = base64.b64encode(payload.encode('ascii'))
+    link4share = 'https://4share.vn/tool/?dlfile=' + encoded.decode("ascii")
+
+    return link4share
+
+def encodeURL(link):
+
+    encoded = base64.b64encode(link.encode('ascii'))
+    ciphertext = CaesarCipher(encoded.decode('ascii'), offset=14).encoded
+    result = "https://mp3zing.download/redirector?code=" + ciphertext
+
+    return result
 
 if __name__ == "__main__":
     app.run()
