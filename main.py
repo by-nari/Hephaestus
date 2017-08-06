@@ -2,14 +2,15 @@
 # -*- coding: utf-8 -*-
 
 from flask import Flask, render_template, flash, request, Response
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from wtforms import Form, TextField, validators
+from flask_wtf import FlaskForm
 from caesarcipher import CaesarCipher
+from config import cookies, apikey, fshare, acc4share
 import os
 import requests
 import re
 import json
 import youtube_dl
-import config
 import base64
  
 # App config.
@@ -17,17 +18,13 @@ DEBUG = False
 app = Flask(__name__, static_url_path='/static')
 app.config.from_object(__name__)
 app.config['SECRET_KEY'] = os.urandom(30)
-cookies = config.cookies
-apikey = config.apikey
-fshare = config.fshare
-acc4share = config.acc4share
 
-class WebForm(Form):
-    link = TextField(u'Nhập link bài hát:', validators=[validators.required()])
- 
+class WebForm(FlaskForm):
+    link = TextField('link', validators=[validators.required()])
+
 @app.route("/", methods=['GET', 'POST'])
 def hello():
-    form = WebForm(request.form)
+    form = WebForm()
  
     if request.method == 'POST':
 
@@ -36,10 +33,10 @@ def hello():
         mp3_valid = re.match("(https?:\/\/)?(m.)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", link)
         nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", link)
         sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", link)
-        fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+", link)
+        fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+\/?", link)
         fourshare = re.match("https?:\/\/4share.vn/f/([0-9a-z]+)/?(.+)?", link)
  
-        if form.validate():
+        if form.validate_on_submit():
 
             if mp3_valid:
 
@@ -58,9 +55,9 @@ def hello():
                 except:
                     msg = MP3(link)
                     if msg:
-                        flash(u"Không thể download bài hát này vì yêu cầu từ nhà sở hữu bản quyền.", 'copyright')
+                        flash("Bài hát này có bản quyền", 'copyright')
                     else:
-                        flash("Mission Failed!", 'fail')
+                        flash("Lỗi nghiêm trọng đã xảy ra.", 'fail')
 
 
             elif nct_valid:
@@ -82,7 +79,7 @@ def hello():
                     flash(artist, 'artist')
                     flash(thumbnail, 'thumbnail')
                 except:
-                    flash("Mission Failed!", 'fail')
+                    flash("Lỗi nghiêm trọng đã xảy ra.", 'fail')
 
             elif sc_valid:
 
@@ -97,7 +94,7 @@ def hello():
                     flash(thumbnail, 'thumbnail')
 
                 except:
-                    flash("Mission Failed!", 'fail')
+                    flash("Lỗi nghiêm trọng đã xảy ra.", 'fail')
 
             elif fs_valid:
 
@@ -111,7 +108,7 @@ def hello():
                     flash(u"Get link thành công!", 'success')
                     flash(fslink, 'fslink')
                 except:
-                    flash("Mission Failed!", 'fail')
+                    flash("Lỗi nghiêm trọng đã xảy ra.", 'fail')
 
             elif fourshare:
 
@@ -120,7 +117,7 @@ def hello():
                     flash(u"Get link thành công!", 'success')
                     flash(link4share, 'link4share')
                 except:
-                    flash("Mission Failed!", 'fail')
+                    flash("Lỗi nghiêm trọng đã xảy ra.", 'fail')
 
             else:
                 flash(u"Link bạn vừa nhập vào không chính xác, vui lòng kiểm tra lại", 'error')
@@ -143,7 +140,7 @@ def api():
     mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", url)
     nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", url)
     sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", url)
-    fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+", url)
+    fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+\/?", url)
     fourshare = re.match("https?:\/\/4share.vn/f/([0-9a-z]+)/?(.+)?", url)
 
     if key not in apikey:
@@ -188,7 +185,7 @@ def decode():
         flash(u"Giải mã URL thành công!", 'success')
         flash(link.decode('ascii'), 'link')
     except:
-        flash("Mission Failed!", 'fail')
+        flash("Giải mã URL thất bại!", 'fail')
 
     return render_template('link.html')
 
@@ -198,7 +195,7 @@ def MP3(link):
     
     link = link.replace("m.", "")
     s = requests.Session()
-    r = s.get(link, cookies=config.cookies)
+    r = s.get(link, cookies=cookies)
 
     code = re.search('data-code=\"([a-zA-Z0-9]{20,30})\"', r.text).group(1)
     xml = re.search('data-xml=\"(.+)\"', r.text).group(1)
@@ -290,7 +287,7 @@ def FS(link, pw):
                 'LoginForm[checkloginpopup]': 0, 
                 'yt0': 'Đăng nhập'}
     response = r.post("https://www.fshare.vn/login", data=payload, headers=headers, cookies=cookies)
-    id = link.split("/")[-1]
+    id = re.search('https:\/\/www.fshare.vn\/file\/([0-9A-Z]+)\/?', link).group(1)
     downloadpage = r.get(link, headers=headers)
     csrftoken = re.search('<input type=\"hidden\" value=\"([0-9a-z]+)\" name=\"fs_csrf\" \/>', downloadpage.text).group(1)
     dl_data =  {'fs_csrf': csrftoken,
