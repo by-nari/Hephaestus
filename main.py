@@ -138,6 +138,7 @@ def api():
         pw = ""
 
     mp3_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/bai-hat\/[\w\d\-]+/([\w\d]{8})\.html", url)
+    mp3v_valid = re.match("(https?:\/\/)?mp3\.zing\.vn\/video-clip\/[\w\d\-]+/([\w\d]{8})\.html", url)
     nct_valid = re.match("https?:\/\/www\.nhaccuatui\.com\/bai-hat\/[-.a-z0-9A-Z]+\.html", url)
     sc_valid = re.match("https:\/\/soundcloud.com\/[-a-z0-9]+\/[-a-z0-9]+", url)
     fs_valid = re.match("https:\/\/www.fshare.vn\/file\/[0-9A-Z]+\/?", url)
@@ -149,6 +150,11 @@ def api():
         if mp3_valid:
             player, title, artist, thumbnail, link128, link320, lossless = MP3(url)
             data = {'title':title, 'artist':artist, 'thumbnail':thumbnail, 'link128':link128, 'link320':link320, 'lossless':lossless}
+            resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
+            return resp
+        elif mp3v_valid:
+            v360, v480, v720, v1080= MP3V(url)
+            data = {'v360':v360, 'v480':v480, 'v720':v720, 'v1080':v1080}
             resp = Response(response=json.dumps(data), status=200, mimetype="application/json")
             return resp
         elif nct_valid:
@@ -232,6 +238,36 @@ def MP3(link):
 
     return player, title, artist, thumbnail, link128, link320, lossless
 
+
+def MP3V(link):
+
+    global cookies
+    
+    link = link.replace("m.", "")
+    s = requests.Session()
+    r = s.get(link, cookies=cookies)
+
+    xml = re.search('data-xml=\"(.+)\"', r.text).group(1)
+    
+    data = s.get("http://mp3.zing.vn"+xml, cookies=cookies).text
+    dedata = json.loads(data)
+
+    v360 = dedata['data']['item'][0]['source_list'][0]
+
+    try:
+        v480 = dedata['data']['item'][0]['source_list'][1]
+    except:
+        v480 = ""
+    try:
+        v720 = dedata['data']['item'][0]['source_list'][2]
+    except:
+        v720 = ""
+    try:
+        v1080 = dedata['data']['item'][0]['source_list'][3]
+    except:
+        v1080 = ""
+
+    return v360, v480, v720, v1080
 
 def NCT(link):
     
