@@ -1,5 +1,7 @@
 # Hephaestus
 
+This project is no longer maintained.
+
 [![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
 [![forthebadge](http://forthebadge.com/images/badges/built-with-love.svg)](http://forthebadge.com)
 ![Hephaestus](https://i.imgur.com/aXNCSZ8.png)
